@@ -1,0 +1,97 @@
+<div class="main-content" style="margin-top: 5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card card-product">
+                    <div class="card-header card-header-success card-header-icon">
+                        <!--    <div class="card-icon">
+                                    <i class="material-icons">payment</i>
+                            </div> -->
+                        <h3 class="bold"><div class="red">Today </div></h3>
+                        <h1 class="red" *ngIf="totalToday && totalToday === 'N/A';else showTotal">{{0 |currency}}</h1>
+                        <ng-template #showTotal><h1 class="red">{{totalToday | currency}}</h1></ng-template>
+                       
+                        <h4 class="green" *ngIf="totalYesterday && totalYesterday !== 'N/A'"> Total Sales Yesterday</h4>
+
+                        <!-- <h4 class="green" *ngIf="totalToday != 'N/A'">{{0 | currency}} </h4> -->
+
+                        <h4 class="green" *ngIf="totalYesterday && totalYesterday !== 'N/A'">{{totalYesterday | currency}}</h4>
+                        <button mat-raised-button (click)="refresh()">Refresh</button>
+                    </div>
+                    <div class="card-body">
+                            <!--<button mat-raised-button (click)="showTable = !showTable">Show More</button>-->
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row" *ngIf="showTable">-->
+        <div class="row" >
+            <div class="col-lg-12 col-md-12 col-sm-3">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">payment</i>
+                        </div>
+                        <h3 class="card-title">Sales Summary</h3>
+                        <p class="card-category">{{todayDate}}</p>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="show; else no_data" class="card-body table-responsive">
+                            <table class="table table-striped" >
+                                <thead class="text-warning" >
+                                <th width="40%" class="paymethod">Pay Type</th>
+                                <th width="15%" class="price">Today </th>
+                                <th width="15%" class="price">Yesterday </th>
+                                <th width="15%" class="price">Current Month </th>
+                                <th width="15%" class="price">Last Month </th>
+                                </thead>
+                                <tbody class="no-top-border">
+                                <tr class="ng-star-inserted" *ngFor="let sales of totalSales" >
+                                    <td class="td-name paymethod" >{{sales.paymethod}}</td>
+                                    <td class="price" *ngIf="sales.totalToday !== 'N/A';else no_dollar_today"> {{sales.totalToday | currency}}</td>
+                                    <td class="price" *ngIf="sales.totalYesterday !== 'N/A';else no_dollar_yesterday"> {{sales.totalYesterday| currency}}</td>
+                                    <td class="price" *ngIf="sales.totalThisMonth !== 'N/A';else no_dollar_thisMonth">{{sales.totalThisMonth| currency}}</td>
+                                    <td class="price" *ngIf="sales.totalLastMonth !== 'N/A';else no_dollar_lastMonth"> {{sales.totalLastMonth| currency}}</td>
+                                    <ng-template #no_dollar_yesterday>
+                                        <td class="na">{{sales.totalYesterday}}</td>
+                                    </ng-template>
+                                    <ng-template #no_dollar_thisMonth>
+                                        <td class="na">{{sales.totalThisMonth}}</td>
+                                    </ng-template>
+                                    <ng-template #no_dollar_lastMonth>
+                                        <td class="na">{{sales.totalLastMonth}}</td>
+                                    </ng-template>
+                                    <ng-template #no_dollar_today>
+                                        <td class="na">{{sales.totalToday}}</td>
+                                    </ng-template>
+                                </tr>
+                                <tr>
+                                    <td class="paymethod_bold">Total</td>
+                                    <td class="price_bold" *ngIf="totalToday!=='N/A';else no_total_today" >{{totalToday |currency}}</td>
+                                    <td class="price_bold" *ngIf="totalYesterday!=='N/A' ; else no_total_yesterday">{{totalYesterday | currency}}</td>
+                                    <td class="price_bold" *ngIf="totalThisMonth!='N/A';else no_total_thisMonth">{{totalThisMonth |currency}}</td>
+                                    <td class="price_bold" *ngIf="totalLastMonth!='N/A';else no_total_lastMonth">{{totalLastMonth |currency}}</td>
+                                    <ng-template #no_total_today>
+                                        <td class="na">N/A</td>
+                                    </ng-template>
+                                    <ng-template #no_total_yesterday>
+                                        <td class="na">N/A</td>
+                                    </ng-template>
+                                    <ng-template #no_total_thisMonth>
+                                        <td class="na">N/A</td>
+                                    </ng-template>
+                                    <ng-template #no_total_lastMonth>
+                                        <td class="na">N/A</td>
+                                    </ng-template>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ng-template #no_data><h1>No Sales Today</h1></ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>         
+    </div>
+</div>
